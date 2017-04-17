@@ -74,7 +74,7 @@ userSchema.statics.loginUser=function(email_id,password,cb){
 		}
 		if(!result){
 			console.log("user doesn't exists");
-			return;	
+			return;
 		}
 		return bcrypt.compare(password, result.password, function(err, status) {
 			if(err){
