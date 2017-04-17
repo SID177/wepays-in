@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Cities & Colleges</title>
+</head>
+<body>
+<a href="./logout">Logout</a>
+<a href="./dashboard">Dashboard</a>
+
+<table border="1">
+	<tr>
+		<th colspan="100">
+			AVAILABLE CITIES
+		</th>
+	</tr>
+	<tr>
+		<th>Name</th>
+		<th>Status</th>
+	</tr>
+	<% for(var i=0;i<cities.length;i++){ %>
+	<tr>
+		<td><%= cities[i].name %></td>
+		<td>
+			<form action="./city_selectable" method="post">
+				<input type="hidden" name="id" value="<%= cities[i]._id %>">
+				<input type="hidden" name="status" value="<%= cities[i].selectable %>">
+				<input type="submit" value="<%= cities[i].selectable?'De-selectable':'Selectable' %>">
+			</form>
+			<br/>
+			<form action="./city_enable" method="post">
+				<input type="hidden" name="id" value="<%= cities[i]._id %>">
+				<input type="hidden" name="status" value="<%= cities[i].deleted %>">
+				<input type="submit" value="<%= cities[i].deleted?'Activate':'De-activate' %>">
+			</form>
+		</td>
+	</tr>
+	<% } %>
+</table>
+<br/>
+<table border="1">
+	<tr>
+		<th colspan="100">
+			AVAILABLE COLLEGES
+		</th>
+	</tr>
+	<tr>
+		<th>Name</th>
+		<th>City</th>
+	</tr>
+	<% for(var i=0;i<colleges.length;i++){ %>
+	<tr>
+		<td>
+			<%= colleges[i].name %>
+		</td>
+		<td>
+			<% for(var j=0;j<cities.length;j++){ %>
+			<%= cities[j]._id.toString()===colleges[i].city?cities[j].name:'' %>
+			<% } %>
+		</td>
+	</tr>
+	<% } %>
+</table>
+<br/>
+<table border="1">
+	<tr>
+		<th colspan="100">
+			AVAILABLE COURSES
+		</th>
+	</tr>
+	<tr>
+		<th>Name</th>
+		<th>College</th>
+	</tr>
+	<% for(var i=0;i<courses.length;i++){ %>
+	<tr>
+		<td>
+			<%= courses[i].name %>
+		</td>
+		<td>
+			<% for(var j=0;j<colleges.length;j++){ %>
+			<%= colleges[j]._id.toString()===courses[i].college?colleges[j].name:'' %>
+			<% } %>
+		</td>
+	</tr>
+	<% } %>
+</table>
+<br/>
+<form action="./addCity" method="post">
+	<table border="1">
+		<tr>
+			<th>Name: </th>
+			<td>
+				<input type="text" name="city" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<input type="submit" value="Add city" />
+			</td>
+		</tr>
+	</table>
+</form>
+<br/>
+<form action="./addCollege" method="post">
+	<table border="1">
+		<tr>
+			<th>Name: </th>
+			<td>
+				<input type="text" name="name" />
+			</td>
+		</tr>
+		<tr>
+			<th>College Email-prefix: </th>
+			<td>
+				<input type="text" name="email_prefix" />
+			</td>
+		</tr>
+		<tr>
+			<th>City: </th>
+			<td>
+				<select name="city">
+					<% for(var i=0;i<cities.length;i++){ %>
+					<% if(cities[i].deleted) continue; %>
+					<option value="<%= cities[i]._id %>"><%= cities[i].name %></option>
+					<% } %>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<input type="submit" value="Add college" />
+			</td>
+		</tr>
+	</table>
+</form>
+<br/>
+<form action="./addCourse" method="post">
+	<table border="1">
+		<tr>
+			<th>Name: </th>
+			<td>
+				<input type="text" name="name" />
+			</td>
+		</tr>
+		<tr>
+			<th>Duration: </th>
+			<td>
+				<input type="number" name="month" placeholder="months" />
+				<input type="number" name="year" placeholder="years" />
+			</td>
+		</tr>
+		<tr>
+			<th>College: </th>
+			<td>
+				<select name="college">
+					<% for(var i=0;i<colleges.length;i++){ %>
+					<% if(colleges[i].deleted) continue; %>
+					<option value="<%= colleges[i]._id %>"><%= colleges[i].name %></option>
+					<% } %>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<input type="submit" value="Add college" />
+			</td>
+		</tr>
+	</table>
+</form>
+
+</body>
+</html>
