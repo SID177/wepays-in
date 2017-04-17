@@ -41,6 +41,11 @@ var userSchema=new mong.Schema({
 	end_year: {
 		type: Number,
 		required: true,
+	},
+	limit: {
+		type: Number,
+		required: true,
+		default: 20000
 	}
 });
 userSchema.statics.listAllUsers=function(cb){
