@@ -27,6 +27,22 @@ module.exports.getCollegeById=function(id,cb){
 	});
 };
 
+module.exports.getCollegeByCity=function(city,cb){
+	collegeModel.listCollegesByCity(city,function(err,colleges){
+		if(err){
+			console.log(err);
+			cb(err,null);
+			return;
+		}
+		if(colleges.length===0){
+			console.log('no colleges found');
+			cb('no colleges found',null);
+			return;
+		}
+		cb(null,colleges);
+	});
+};
+
 module.exports.addCollege=function(college,cb){
 	var city=require('./city.js');
 	city.getCityById(college.city,function(err,city){

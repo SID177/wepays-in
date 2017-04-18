@@ -27,6 +27,22 @@ module.exports.getCourseById=function(id,cb){
 	});
 };
 
+module.exports.getCourseByCollege=function(college,cb){
+	courseModel.listCoursesByCollege(college,function(err,course){
+		if(err){
+			console.log(err);
+			cb(err,null);
+			return;
+		}
+		if(course.length===0){
+			console.log('no courses found');
+			cb('no courses found',null);
+			return;
+		}
+		cb(null,course);
+	});
+};
+
 module.exports.addCourse=function(course,cb){
 	const college=require('./college.js');
 	college.getCollegeById(course.college,function(err,college){

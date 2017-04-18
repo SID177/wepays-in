@@ -72,32 +72,54 @@ module.exports.execute=function(resource){
 		});
 	});
 
-	router.get('/registration',function(req,res){
+	router.post('/getCities',function(req,res){
 		method_city.getCities(function(err,cities){
 			if(err){
 				res.send({err_msg:err});
 				res.end();
 				return;
 			}
-			
-			method_college.getColleges(function(err,colleges){
-				if(err){
-					res.send({err_msg:err});
-					res.end();
-					return;
-				}
+			res.send({data:cities,suc_msg:'success'});
+			res.end();
+		});
+	});
 
-				method_course.getCourses(function(err,courses){
-					if(err){
-						res.send({err_msg:err});
-						res.end();
-						return;
-					}
+	router.post('/getCollegeByCity',function(req,res){
+		if(!req.body.city){
+			console.log('city id not found');
+			res.send({err_msg:'city ID not found'});
+			res.end();
+			return;
+		}
 
-					res.send({cities:cities,colleges:colleges,courses:courses,suc_msg:'success'});
-					res.end();
-				});
-			});
+		method_college.getCollegeByCity(req.body.city,function(err,colleges){
+			if(err){
+				res.send({err_msg:err});
+				res.end();
+				return;
+			}
+			res.send({data:colleges,suc_msg:'success'});
+			res.end();
+		});
+	});
+
+	router.post('/getCourseByCollege',function(req,res){
+		if(!req.body.college){
+			console.log('college id not found');
+			res.send({err_msg:'college ID not found'});
+			res.end();
+			return;
+		}
+
+		method_course.getCourseByCollege(req.body.college,function(err,courses){
+			if(err){
+				res.send({err_msg:err});
+				res.end();
+				return;
+			}
+
+			res.send({data:courses,suc_msg:'success'});
+			res.end();
 		});
 	});
 };

@@ -21,7 +21,7 @@ courseSchema.statics.getCourseByNameAndCollege=function(name,clg,cb){
 courseSchema.statics.getCourseById=function(id,cb){
 	return this.find({_id:id,deleted:false},cb);
 };
-courseSchema.statics.getCourseByCollege=function(clg,cb){
+courseSchema.statics.listCoursesByCollege=function(clg,cb){
 	return this.find({college:clg,deleted:false},cb);
 };
 courseSchema.statics.addCourse=function(data,cb){
