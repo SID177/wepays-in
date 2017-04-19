@@ -66,7 +66,7 @@ module.exports.execute=function(resource){
 					method_user.addUser(data,function(err){
 						if(err){
 							console.log(err);
-							res.send({err_msg:err.code===11000?'User already exists!':err});
+							res.send({err_msg:err});
 							res.end();
 							return;
 						}
@@ -131,7 +131,7 @@ module.exports.execute=function(resource){
 
 		method_course.getCourseByCollege(req.body.college,function(err,courses){
 			if(err){
-				res.send({err_msg:err.errmsg});
+				res.send({err_msg:err});
 				res.end();
 				return;
 			}

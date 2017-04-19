@@ -4,7 +4,9 @@ module.exports.getCourses=function(cb){
 	courseModel.listAllCourses(function(err,courses){
 		if(err){
 			console.log(err);
-			cb(err,null);
+			const reader=require('properties-reader');
+			const prop=reader('./API/files/admin.ini');
+			cb(prop.get('err.user'));
 			return;
 		}
 		cb(null,courses);
@@ -15,7 +17,9 @@ module.exports.getCourseById=function(id,cb){
 	courseModel.getCourseById(id,function(err,course){
 		if(err){
 			console.log(err);
-			cb(err,null);
+			const reader=require('properties-reader');
+			const prop=reader('./API/files/admin.ini');
+			cb(prop.get('err.user'));
 			return;
 		}
 		if(course.length===0){
@@ -31,7 +35,9 @@ module.exports.getCourseByCollege=function(college,cb){
 	courseModel.listCoursesByCollege(college,function(err,course){
 		if(err){
 			console.log(err);
-			cb(err,null);
+			const reader=require('properties-reader');
+			const prop=reader('./API/files/admin.ini');
+			cb(prop.get('err.user'));
 			return;
 		}
 		if(course.length===0){
@@ -48,13 +54,17 @@ module.exports.addCourse=function(course,cb){
 	college.getCollegeById(course.college,function(err,college){
 		if(err){
 			console.log(err);
-			cb(err);
+			const reader=require('properties-reader');
+			const prop=reader('./API/files/admin.ini');
+			cb(prop.get('err.user'));
 			return;
 		}
 		courseModel.addCourse(course,function(err){
 			if(err){
 				console.log(err);
-				cb(err);
+				const reader=require('properties-reader');
+				const prop=reader('./API/files/admin.ini');
+				cb(prop.get('err.user'));
 				return;
 			}
 			cb(null);

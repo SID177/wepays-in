@@ -16,7 +16,7 @@ module.exports.execute=function(resource){
 			return;
 		}
 		const reader=require('properties-reader');
-		const prop=reader('./API/admin/files/admin.ini');
+		const prop=reader('./API/files/admin.ini');
 		var username=prop.get('login.admin.username');
 		var password=prop.get('login.admin.password');
 		
