@@ -68,6 +68,7 @@ module.exports.execute=function(resource){
 							console.log(err);
 							res.send({err_msg:err.code===11000?'User already exists!':err});
 							res.end();
+							return;
 						}
 						res.send({suc_msg:'success'});
 						res.end();
