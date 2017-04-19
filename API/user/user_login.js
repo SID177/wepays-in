@@ -66,7 +66,7 @@ module.exports.execute=function(resource){
 					method_user.addUser(data,function(err){
 						if(err){
 							console.log(err);
-							res.send({err_msg:err});
+							res.send({err_msg:err.code===11000?'User already exists!':err});
 							res.end();
 						}
 						res.send({suc_msg:'success'});
