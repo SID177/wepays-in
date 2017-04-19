@@ -1,5 +1,5 @@
 module.exports.execute=function(app){
-	var isLogin=function(req,res){
+	var isLogin=function(req){
 		if(!req.session.userLogin){
 			console.log('not logged in');
 			return false;

@@ -1,5 +1,6 @@
 module.exports.execute=function(resource){
 	const router=resource.app;
+	const isLogin=resource.isLogin;
 
 	const method_city=require('../METHODS/city.js');
 	const method_college=require('../METHODS/college.js');
@@ -9,6 +10,16 @@ module.exports.execute=function(resource){
 	router.get('/user_logout',function(req,res){
 		req.session.userLogin=undefined;
 		res.send({suc_msg:'success'});
+		res.end();
+	});
+
+	router.get('/isLogin',function(req,res){
+		if(!isLogin(req)){
+			res.send({err_msg:'not logged in'});
+			res.end();
+			return;
+		}
+		res.send({suc_msg:'logged in'});
 		res.end();
 	});
 
