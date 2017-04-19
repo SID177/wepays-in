@@ -58,7 +58,7 @@ module.exports.execute=function(resource){
 
 					var str=req.body.college_email.split('@');
 					if(str[1]!==college[0].email_postfix){
-						res.send({err_msg:'INVALID EMAIL ADDRESS'});
+						res.send({err_msg:'INVALID EMAIL ADDRESS, IT SHOULD END WITH '+college[0].email_postfix});
 						res.end();
 						return;
 					}
