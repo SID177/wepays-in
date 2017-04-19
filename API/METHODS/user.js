@@ -11,6 +11,17 @@ module.exports.loginUser=function(username,password,cb){
 	});
 };
 
+module.exports.listUsers=function(cb){
+	userModel.listAllUsers(function(err,result){
+		if(err){
+			console.log(err);
+			cb(err,null);
+			return;
+		}
+		cb(null,result);
+	});
+};
+
 module.exports.addUser=function(data,cb){
 	userModel.addUser(data,function(err){
 		if(err){

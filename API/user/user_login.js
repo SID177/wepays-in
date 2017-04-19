@@ -64,6 +64,11 @@ module.exports.execute=function(resource){
 					}
 					var data={college_id:req.body.college_id,college_email:req.body.college_email,password:req.body.password,first_name:req.body.first_name,last_name:req.body.last_name,city:city[0]._id,college:college[0]._id,course:course[0]._id,start_year:req.body.start_year,end_year:req.body.end_year};
 					method_user.addUser(data,function(err){
+						if(err){
+							console.log(err);
+							res.send({err_msg:err});
+							res.end();
+						}
 						res.send({suc_msg:'success'});
 						res.end();
 					});
@@ -80,6 +85,18 @@ module.exports.execute=function(resource){
 				return;
 			}
 			res.send({data:cities,suc_msg:'success'});
+			res.end();
+		});
+	});
+
+	router.get('/getUsers',function(req,res){
+		method_user.listUsers(function(err,users){
+			if(err){
+				res.send({err_msg:err});
+				res.end();
+				return;
+			}
+			res.send({data:users,suc_msg:'success'});
 			res.end();
 		});
 	});
