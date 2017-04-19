@@ -58,7 +58,7 @@ module.exports.execute=function(resource){
 
 					var str=req.body.college_email.split('@');
 					if(str[1]!==college[0].email_postfix){
-						res.send({err_msg:'postfix mismatch'});
+						res.send({err_msg:'INVALID EMAIL ADDRESS'});
 						res.end();
 						return;
 					}
@@ -131,7 +131,7 @@ module.exports.execute=function(resource){
 
 		method_course.getCourseByCollege(req.body.college,function(err,courses){
 			if(err){
-				res.send({err_msg:err});
+				res.send({err_msg:err.errmsg});
 				res.end();
 				return;
 			}
