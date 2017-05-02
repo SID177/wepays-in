@@ -8,7 +8,7 @@ module.exports.execute=function(resource){
 	const method_user=require('../METHODS/user.js');
 
 	router.get('/user_logout',function(req,res){
-		req.session.userLogin=undefined;
+		req.session.userLogin=null;
 		res.send({suc_msg:'success'});
 		res.end();
 	});
@@ -20,6 +20,7 @@ module.exports.execute=function(resource){
 			res.end();
 			return;
 		}
+		user.password='';
 		res.send({data:user,suc_msg:'logged in'});
 		res.end();
 	});
@@ -36,6 +37,7 @@ module.exports.execute=function(resource){
 				res.end();
 				return;
 			}
+			user.password='';
 			req.session.userLogin=user;
 			res.send({data:user,suc_msg:'success'});
 			res.end();
