@@ -1,11 +1,10 @@
 const userModel=require('../../model/user.js');
 
 module.exports.loginUser=function(username,password,cb){
-	userModel.loginUser(username,password,function(result){
-		if(!result){
-			console.log('invalid username or password');
-			cb('invalid username or password',null);
-			return;
+	userModel.loginUser(username,password,function(err,result){
+		if(err){
+			console.log(err);
+			return cb(err,null);
 		}
 		cb(null,result);
 	});

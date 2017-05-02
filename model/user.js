@@ -68,23 +68,18 @@ userSchema.statics.updateUser=function(data,cb){
 };
 userSchema.statics.loginUser=function(email_id,password,cb){
 	return this.findOne({college_email:email_id},function(err,result){
-		if(err){
-			console.log(err);
-			return;
-		}
-		if(!result){
-			console.log("user doesn't exists");
-			return;
-		}
+		if(err)
+			return cb(err,null)
+		if(!result)
+			return cb('Invalid username or password',null)
 		return bcrypt.compare(password, result.password, function(err, status) {
 			if(err){
-				console.log(err);
-				return;
+				return cb(err,null);
 			}
 			if(status)
-				return cb(result);
+				return cb(null,result);
 			else
-				return cb(null);
+				return cb('Invalid username or password',null);
 		});
 	});
 };
