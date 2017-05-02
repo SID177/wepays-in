@@ -14,12 +14,13 @@ module.exports.execute=function(resource){
 	});
 
 	router.get('/isLogin',function(req,res){
-		if(!isLogin(req)){
+		var user=isLogin(req);
+		if(!user){
 			res.send({err_msg:'not logged in'});
 			res.end();
 			return;
 		}
-		res.send({suc_msg:'logged in'});
+		res.send({data:user,suc_msg:'logged in'});
 		res.end();
 	});
 

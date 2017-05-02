@@ -2,9 +2,9 @@ module.exports.execute=function(app){
 	var isLogin=function(req){
 		if(!req.session.userLogin){
 			console.log('not logged in');
-			return false;
+			return null;
 		}
-		return true;
+		return req.session.userLogin;
 	}
 	resource={
 		app:app,
