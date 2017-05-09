@@ -10,6 +10,16 @@ module.exports.loginUser=function(username,password,cb){
 	});
 };
 
+module.exports.getUserById=function(id,cb){
+	userModel.getUserById(id,function(err,result){
+		if(err){
+			console.log(err);
+			return cb(err,null);
+		}
+		cb(null,result);
+	});
+};
+
 module.exports.listUsers=function(cb){
 	userModel.listAllUsers(function(err,result){
 		if(err){
@@ -32,6 +42,17 @@ module.exports.addUser=function(data,cb){
 			var errmsg="";
 			errmsg=err.code===11000?'User already exists!':prop.get('err.user');
 			cb(errmsg);
+			return;
+		}
+		cb(null);
+	});
+};
+
+module.exports.updateUser=function(data,cb){
+	userModel.updateUser(data,function(err){
+		if(err){
+			console.log(err);
+			cb(err);
 			return;
 		}
 		cb(null);

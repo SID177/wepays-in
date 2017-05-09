@@ -46,6 +46,13 @@ var userSchema=new mong.Schema({
 		type: Number,
 		required: true,
 		default: 20000
+	},
+	documents: {
+		type: [String]
+	},
+	docVerified: {
+		type: Boolean,
+		default: false
 	}
 });
 userSchema.statics.listAllUsers=function(cb){
@@ -64,7 +71,7 @@ userSchema.statics.addUser=function(data,cb){
 	});
 };
 userSchema.statics.updateUser=function(data,cb){
-	return this.update(data,cb);
+	return this.findOneAndUpdate({_id:data._id.toString()},data,{upsert:true},cb);
 };
 userSchema.statics.loginUser=function(email_id,password,cb){
 	return this.findOne({college_email:email_id},function(err,result){

@@ -2,6 +2,7 @@ const express=require('express');
 const parser=require('body-parser');
 const session=require('express-session');
 const app=express();
+app.use(express.static('documents'));
 app.use(parser.json());
 app.use(parser.urlencoded({extended:false}));
 app.use(session({

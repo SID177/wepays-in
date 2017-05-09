@@ -13,4 +13,5 @@ module.exports.execute=function(app){
 
 	//ADD CONTROLLERS HERE
 	require('./user_login.js').execute(resource);
+	require('./user_opr.js').execute(resource);
 };
