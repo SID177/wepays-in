@@ -16,7 +16,11 @@ module.exports.getUserById=function(id,cb){
 			console.log(err);
 			return cb(err,null);
 		}
-		cb(null,result);
+		if(result.length==0){
+			console.log('no user found');
+			return cb('No User Found',null);
+		}
+		cb(null,result[0]);
 	});
 };
 

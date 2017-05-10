@@ -5,6 +5,7 @@ module.exports.execute=function(resource){
 	const method_city=require('../METHODS/city.js');
 	const method_college=require('../METHODS/college.js');
 	const method_course=require('../METHODS/course.js');
+	const method_user=require('../METHODS/user.js');
 
 	router.get('/list',function(req,res){
 		if(!isLogin(req,res)){
@@ -126,6 +127,45 @@ module.exports.execute=function(resource){
 			}
 			res.send({suc_msg:'success'});
 			res.end();
+		});
+	});
+
+	router.get('/approveDocuments/:status',function(req,res){
+		if(!isLogin(req,res)){
+			res.send({err_msg:'not logged in'});
+			res.end();
+			return;
+		}
+		if(!req.query.id){
+			res.send({err_msg:'html code changed'});
+			res.end();
+			return;
+		}
+		var id=req.query.id;
+		var status=req.params.status;
+
+		method_user.getUserById(id,function(err,result){
+			if(err){
+				res.send({err_msg:err});
+				res.end();
+				return;
+			}
+
+			if(status=='true')
+				result.docVerified=true;
+			else
+				result.docVerified=false;
+
+			method_user.updateUser(result,function(err){
+				if(err){
+					res.send({err_msg:err});
+					res.end();
+					return;
+				}
+				res.send({suc_msg:'success'});
+				res.end();
+				return;
+			});
 		});
 	});
 };
