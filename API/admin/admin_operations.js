@@ -9,11 +9,10 @@ module.exports.execute=function(resource){
 
 	router.get('/list',function(req,res){
 		if(!isLogin(req,res)){
-			//res.send({err_msg:'login first'});
-			//res.end();
-			//return;
+			res.send({err_msg:'admin not logged in'});
+			res.end();
+			return;
 		}
-		console.log("LOGGED IN");
 		
 		method_city.getCities(function(err,cities){
 			if(err){
@@ -41,13 +40,14 @@ module.exports.execute=function(resource){
 				});
 			});
 		});
-
-		//res.send({cities: cities.data,colleges: colleges.data,courses: courses.data,suc_msg:'success'});
 	});
 
 	router.post('/addCity',function(req,res){
-		//if(!isLogin(req,res))
-		//	return;
+		if(!isLogin(req,res)){
+			res.send({err_msg:'admin not logged in'});
+			res.end();
+			return;
+		}
 		if(!req.body.city){
 			res.send({err_msg:'html code changed'});
 			res.end();
@@ -65,8 +65,11 @@ module.exports.execute=function(resource){
 	});
 
 	router.post('/addCollege',function(req,res){
-		//if(!isLogin(req,res))
-		//	return;
+		if(!isLogin(req,res)){
+			res.send({err_msg:'admin not logged in'});
+			res.end();
+			return;
+		}
 		if(!req.body.name || !req.body.email_postfix || !req.body.city){
 			res.send({err_msg:'html code changed'});
 			res.end();
@@ -86,8 +89,11 @@ module.exports.execute=function(resource){
 	});
 
 	router.post('/addCourse',function(req,res){
-		//if(!isLogin(req,res))
-		//	return;
+		if(!isLogin(req,res)){
+			res.send({err_msg:'admin not logged in'});
+			res.end();
+			return;
+		}
 		if(!req.body.name || !req.body.month || !req.body.year || !req.body.college){
 			res.send({err_msg:'html code changed'});
 			res.end();
@@ -107,7 +113,7 @@ module.exports.execute=function(resource){
 
 	router.post('/city_enable',function(req,res){
 		if(!isLogin(req,res)){
-			res.send({err_msg:'login first'});
+			res.send({err_msg:'admin not logged in'});
 			res.end();
 			return;
 		}
@@ -132,7 +138,7 @@ module.exports.execute=function(resource){
 
 	router.get('/approveDocuments/:status',function(req,res){
 		if(!isLogin(req,res)){
-			res.send({err_msg:'not logged in'});
+			res.send({err_msg:'admin not logged in'});
 			res.end();
 			return;
 		}
@@ -164,7 +170,6 @@ module.exports.execute=function(resource){
 				}
 				res.send({suc_msg:'success'});
 				res.end();
-				return;
 			});
 		});
 	});
