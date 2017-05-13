@@ -47,6 +47,11 @@ module.exports.execute=function(resource){
 			return;
 		}
 		var path='documents/'+user._id.toString()+'/';
+		try{
+			fs.mkdirSync(path);
+			console.log('directory created: '+path);
+		}catch(err){console.log('directory exists: '+path);}
+
 		req.files.file.mv(path+''+req.files.file.name,function(err){
 			if(err){
 				try{
