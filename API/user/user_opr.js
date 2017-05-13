@@ -39,7 +39,7 @@ module.exports.execute=function(resource){
 			});
 			return;
 		}
-		
+
 		if(!req.files.file){
 			console.log("html code changed");
 			res.send({err_msg:'html code changed'});
@@ -85,62 +85,6 @@ module.exports.execute=function(resource){
 				});
 			});
 		});
-
-		/*var docs=[],temp=[];
-		//path='documents/'+user._id.toString()+'/';
-		path='documents/tempuser/';
-		try{
-			fs.mkdirSync(path);
-		}catch(err){}
-		
-		for(var i=0;i<req.files.file.length;i++){
-			temp.push(i);
-			req.files.file[i].mv(path+''+req.files.file[i].name,function(err){
-				if(err){
-					for(var j=i;j>=0;j--){
-						try{
-							fs.unlinkSync(path+''+req.files.file[i].name);
-						}catch(err){}
-					}
-
-					console.log('err while moving file, changes reverted!');
-					res.send({err_msg:'err while moving file, changes reverted!'});
-					res.end();
-					return;
-				}
-				docs.push(req.files.file[temp[0]].name);
-				temp.splice(0,1);
-				if(temp.length==0){
-					console.log(docs);
-					method_user.getUserById(user._id,function(err,result){
-						if(err){
-							res.send({err_msg:err});
-							res.end();
-							return;
-						}
-
-						if(req.params.mode==='new')
-							result[0].documents=docs;
-						else
-							result[0].documents=docs.concat(result[0].documents);
-
-						result[0].docVerified=false;
-						console.log(result[0]);
-						method_user.updateUser(result[0],function(err){
-							if(err){
-								res.send({err_msg:err});
-								res.end();
-								return;
-							}
-							result.password='';
-							req.session.user=result[0];
-							res.send({data:result[0],suc_msg:'success'});
-							res.end();
-						});
-					});
-				}
-			});
-		}*/
 	});
 
 
