@@ -25,8 +25,8 @@ module.exports.execute=function(resource){
 					res.end();
 					return;
 				}
-				result[0].documents=[];
-				method_user.updateUser(result[0],function(err){
+				result.documents=[];
+				method_user.updateUser(result,function(err){
 					if(err){
 						res.send({err_msg:err});
 						res.end();
@@ -35,12 +35,15 @@ module.exports.execute=function(resource){
 
 					var path='documents/'+user._id.toString()+'/';
 					try{
-						fs.unlinkSync(path);
+						var files=fs.readdirSync(path);
+						for(var i=0;i<files.length;i++)
+							fs.unlinkSync(path+''+files[i]);
+						fs.rmdirSync(path);
 					}catch(err){console.log(err);}
 
 					result.password='';
-					req.session.user=result[0];
-					res.send({data:result[0],suc_msg:'success'});
+					req.session.user=result;
+					res.send({data:result,suc_msg:'success'});
 					res.end();
 				});
 			});
