@@ -2,6 +2,7 @@ module.exports.execute=function(resource){
 	const router=resource.app;
 	const isLogin=resource.isLogin;
 	const fileUpload=require('express-fileupload');
+	const path_comp=require('path');
 	const fs=require('fs');
 	router.use(fileUpload());
 
@@ -31,6 +32,12 @@ module.exports.execute=function(resource){
 						res.end();
 						return;
 					}
+
+					var path='documents/'+user._id.toString()+'/';
+					try{
+						fs.unlinkSync(path);
+					}catch(err){console.log(err);}
+
 					result.password='';
 					req.session.user=result[0];
 					res.send({data:result[0],suc_msg:'success'});
@@ -64,15 +71,14 @@ module.exports.execute=function(resource){
 			}
 			method_user.getUserById(user._id.toString(),function(err,result){
 				if(err){
+					console.log(err);
 					res.send({err_msg:err});
 					res.end();
 					return;
 				}
 
-				if(req.params.mode==='new')
-					result.documents=path+''+req.files.file.name;
-				else
-					result.documents.push(path+''+req.files.file.name);
+				result.documents.push(req.files.file.name);
+				console.log(result.documents);
 
 				result.docVerified=false;
 				method_user.updateUser(result,function(err){
@@ -98,6 +104,30 @@ module.exports.execute=function(resource){
 			res.send({data:result});
 			res.end();
 		});
+	});
+
+	router.get('/view_document/',function(req,res){
+		var user=isLogin(req);
+		if(!user){
+			res.send({err_msg:'not logged in'});
+			res.end();
+			return;
+		}
+
+		if(!req.query.path){
+			console.log('html code changed');
+			res.send({err_msg:'html code changed'});
+			res.end();
+			return;
+		}
+		var path=__dirname+"/../../"+req.query.path;
+		if(!fs.existsSync(path)){
+			console.log('File doesn\'t exists: '+path);
+			res.send({err_msg:'File doesn\'t exists: '+path});
+			res.end();
+			return;	
+		}
+		res.sendFile(path_comp.resolve(path));
 	});
 
 	router.post('/request/:what',function(req,res){

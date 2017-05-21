@@ -6,7 +6,7 @@ module.exports.getCities=function(cb){
 			console.log(err);
 			const reader=require('properties-reader');
 			const prop=reader('./API/files/admin.ini');
-			cb(prop.get('err.user'));
+			cb(prop.get('err.user'),null);
 			return;
 		}
 		cb(null,cities);
@@ -20,7 +20,7 @@ module.exports.getCityById=function(id,cb){
 			console.log(err);
 			const reader=require('properties-reader');
 			const prop=reader('./API/files/admin.ini');
-			cb(prop.get('err.user'));
+			cb(prop.get('err.user'),null);
 			return;
 		}
 		if(city.length===0){

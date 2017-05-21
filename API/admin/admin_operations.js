@@ -8,7 +8,7 @@ module.exports.execute=function(resource){
 	const method_user=require('../METHODS/user.js');
 
 	router.get('/list',function(req,res){
-		if(!isLogin(req,res)){
+		if(!isLogin(req)){
 			res.send({err_msg:'admin not logged in'});
 			res.end();
 			return;
@@ -43,7 +43,7 @@ module.exports.execute=function(resource){
 	});
 
 	router.post('/addCity',function(req,res){
-		if(!isLogin(req,res)){
+		if(!isLogin(req)){
 			res.send({err_msg:'admin not logged in'});
 			res.end();
 			return;
@@ -65,7 +65,7 @@ module.exports.execute=function(resource){
 	});
 
 	router.post('/addCollege',function(req,res){
-		if(!isLogin(req,res)){
+		if(!isLogin(req)){
 			res.send({err_msg:'admin not logged in'});
 			res.end();
 			return;
@@ -89,7 +89,7 @@ module.exports.execute=function(resource){
 	});
 
 	router.post('/addCourse',function(req,res){
-		if(!isLogin(req,res)){
+		if(!isLogin(req)){
 			res.send({err_msg:'admin not logged in'});
 			res.end();
 			return;
@@ -112,7 +112,7 @@ module.exports.execute=function(resource){
 	});
 
 	router.post('/city_enable',function(req,res){
-		if(!isLogin(req,res)){
+		if(!isLogin(req)){
 			res.send({err_msg:'admin not logged in'});
 			res.end();
 			return;
@@ -136,18 +136,18 @@ module.exports.execute=function(resource){
 		});
 	});
 
-	router.get('/approveDocuments/:status',function(req,res){
-		if(!isLogin(req,res)){
+	router.get('/approveDocuments/:id/:status',function(req,res){
+		if(!isLogin(req)){
 			res.send({err_msg:'admin not logged in'});
 			res.end();
 			return;
 		}
-		if(!req.query.id){
-			res.send({err_msg:'html code changed'});
+		if(!req.params.id || !req.params.status){
+			res.send({err_msg:'Invalid request'});
 			res.end();
 			return;
 		}
-		var id=req.query.id;
+		var id=req.params.id;
 		var status=req.params.status;
 
 		method_user.getUserById(id,function(err,result){
