@@ -27,6 +27,20 @@ module.exports.getUserById=function(id,cb){
 	});
 };
 
+module.exports.getUserByIdNoJoin=function(id,cb){
+	userModel.getUserById(id,function(err,result){
+		if(err){
+			console.log(err);
+			return cb(err,null);
+		}
+		if(result.length==0){
+			console.log('no user found');
+			return cb('No User Found',null);
+		}
+		return cb(null,result[0]);
+	});
+};
+
 module.exports.listUsers=function(cb){
 	userModel.listAllUsers(function(err,result){
 		if(err){

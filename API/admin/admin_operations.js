@@ -181,7 +181,7 @@ module.exports.execute=function(resource){
 		var id=req.params.id;
 		var status=req.params.status;
 
-		method_user.getUserById(id,function(err,result){
+		method_user.getUserByIdNoJoin(id,function(err,result){
 			if(err){
 				res.send({err_msg:err});
 				res.end();
