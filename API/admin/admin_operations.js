@@ -1,6 +1,8 @@
 module.exports.execute=function(resource){
 	const router=resource.app;
 	var isLogin=resource.isLogin;
+	const path_comp=require('path');
+	const fs=require('fs');
 
 	const method_city=require('../METHODS/city.js');
 	const method_college=require('../METHODS/college.js');
@@ -201,5 +203,30 @@ module.exports.execute=function(resource){
 				res.end();
 			});
 		});
+	});
+
+	router.get('/admin/view_document/',function(req,res){
+		var user=isLogin(req);
+		if(!user){
+			res.send({err_msg:'not logged in'});
+			res.end();
+			return;
+		}
+		console.log(user);
+
+		if(!req.query.path){
+			console.log('html code changed');
+			res.send({err_msg:'html code changed'});
+			res.end();
+			return;
+		}
+		var path=__dirname+"/../../"+req.query.path;
+		if(!fs.existsSync(path)){
+			console.log('File doesn\'t exists: '+path);
+			res.send({err_msg:'File doesn\'t exists: '+path});
+			res.end();
+			return;	
+		}
+		res.sendFile(path_comp.resolve(path));
 	});
 };
