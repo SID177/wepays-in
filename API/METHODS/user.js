@@ -130,21 +130,23 @@ function joinUser(result,cb){
 				console.log(err);
 				return cb(err,null);
 			}
-			result[list1[0]].city=JSON.parse(city[0]);
+			city[0]._id=undefined;
+			console.log(city);
+			result[list1[0]].city=JSON.stringify(city[0]);
 			list1.shift();
 			method_college.getCollegeById(result[list2[0]].college,function(err,college){
 				if(err){
 					console.log(err);
 					return cb(err,null);
 				}
-				result[list2[0]].college=JSON.parse(college[0]);
+				result[list2[0]].college=JSON.stringify(college[0]);
 				list2.shift();
 				method_course.getCourseById(result[list3[0]].course,function(err,course){
 					if(err){
 						console.log(err);
 						return cb(err,null);
 					}
-					result[list3[0]].course=JSON.parse(course[0]);
+					result[list3[0]].course=JSON.stringify(course[0]);
 					list3.shift();
 					
 					if(list3.length==0)
