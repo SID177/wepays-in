@@ -206,13 +206,13 @@ module.exports.execute=function(resource){
 	});
 
 	router.get('/admin/view_document/',function(req,res){
-		var user=isLogin(req);
+		/*var user=isLogin(req);
 		if(!user){
 			res.send({err_msg:'not logged in'});
 			res.end();
 			return;
 		}
-		console.log(user);
+		console.log(user);*/
 
 		if(!req.query.path){
 			console.log('html code changed');
