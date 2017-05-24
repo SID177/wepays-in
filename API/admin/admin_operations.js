@@ -173,11 +173,11 @@ module.exports.execute=function(resource){
 	});
 
 	router.get('/approveDocuments/:id/:status',function(req,res){
-		if(!isLogin(req)){
+		/*if(!isLogin(req)){
 			res.send({err_msg:'admin not logged in'});
 			res.end();
 			return;
-		}
+		}*/
 		var id=req.params.id;
 		var status=req.params.status;
 

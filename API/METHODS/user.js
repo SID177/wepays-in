@@ -1,4 +1,7 @@
 const userModel=require('../../model/user.js');
+const method_college=require('./college.js');
+const method_course=require('./course.js');
+const method_city=require('./city.js');
 
 module.exports.loginUser=function(username,password,cb){
 	userModel.loginUser(username,password,function(err,result){
@@ -6,7 +9,7 @@ module.exports.loginUser=function(username,password,cb){
 			console.log(err);
 			return cb(err,null);
 		}
-		cb(null,result);
+		return joinUser(result,cb);
 	});
 };
 
@@ -20,7 +23,7 @@ module.exports.getUserById=function(id,cb){
 			console.log('no user found');
 			return cb('No User Found',null);
 		}
-		cb(null,result[0]);
+		return joinUser(result,cb);
 	});
 };
 
@@ -33,7 +36,7 @@ module.exports.listUsers=function(cb){
 			cb(prop.get('err.user'));
 			return;
 		}
-		cb(null,result);
+		return joinUser(result,cb);
 	});
 };
 
@@ -46,7 +49,7 @@ module.exports.listNotApprovedUsers=function(cb){
 			cb(prop.get('err.user'));
 			return;
 		}
-		cb(null,result);
+		return joinUser(result,cb);
 	});
 };
 
@@ -97,6 +100,45 @@ module.exports.requestCash=function(user,amt,cb){
 			return cb("Limit exceed, only "+user.limit+" available",null);
 		}
 		result[0].limit-=amt;
-		return cb(null,result[0]);
+		return joinUser(result,cb);
 	});
+}
+
+
+function joinUser(result,cb){
+	var list1=[],list2=[],list3=[];
+	for(var i=0;i<result.length;i++){
+		list1.push(i);
+		list2.push(i);
+		list3.push(i);
+		method_city.getCityById(result[list1[0]].city,function(err,city){
+			if(err){
+				console.log(err);
+				return cb(err,null);
+			}
+			result[list1[0]].city=city[0];
+			list1.shift();
+			method_college.getCollegeById(result[list2[0]].college,function(err,college){
+				if(err){
+					console.log(err);
+					return cb(err,null);
+				}
+				result[list2[0]].college=college[0];
+				list2.shift();
+				method_course.getCourseById(result[list3[0]].course,function(err,course){
+					if(err){
+						console.log(err);
+						return cb(err,null);
+					}
+					result[list3[0]].course=course[0];
+					list3.shift();
+					
+					if(list3.length==0)
+					{
+						return cb(null,result);
+					}
+				});
+			});
+		});
+	}
 }
