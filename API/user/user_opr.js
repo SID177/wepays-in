@@ -101,14 +101,6 @@ module.exports.execute=function(resource){
 		});
 	});
 
-
-	router.get('/list_users',function(req,res){
-		method_user.listUsers(function(err,result){
-			res.send({data:result});
-			res.end();
-		});
-	});
-
 	router.get('/view_document/',function(req,res){
 		var user=isLogin(req);
 		if(!user){
@@ -116,6 +108,7 @@ module.exports.execute=function(resource){
 			res.end();
 			return;
 		}
+		console.log(user);
 
 		if(!req.query.path){
 			console.log('html code changed');

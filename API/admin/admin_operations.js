@@ -7,6 +7,40 @@ module.exports.execute=function(resource){
 	const method_course=require('../METHODS/course.js');
 	const method_user=require('../METHODS/user.js');
 
+	router.get('/admin_islogin',function(req,res){
+		if(!isLogin(req)){
+			res.send({err_msg:'admin not logged in'});
+			res.end();
+			return;
+		}
+		res.send({suc_msg:'success'});
+		res.end();
+	});
+
+	router.get('/list_users',function(req,res){
+		if(!isLogin(req)){
+			res.send({err_msg:'admin not logged in'});
+			res.end();
+			return;
+		}
+		method_user.listUsers(function(err,result){
+			res.send({data:result});
+			res.end();
+		});
+	});
+
+	router.get('/list_users/notapproved',function(req,res){
+		if(!isLogin(req)){
+			res.send({err_msg:'admin not logged in'});
+			res.end();
+			return;
+		}
+		method_user.listNotApprovedUsers(function(err,result){
+			res.send({data:result});
+			res.end();
+		});
+	});
+
 	router.get('/list',function(req,res){
 		if(!isLogin(req)){
 			res.send({err_msg:'admin not logged in'});
@@ -139,11 +173,6 @@ module.exports.execute=function(resource){
 	router.get('/approveDocuments/:id/:status',function(req,res){
 		if(!isLogin(req)){
 			res.send({err_msg:'admin not logged in'});
-			res.end();
-			return;
-		}
-		if(!req.params.id || !req.params.status){
-			res.send({err_msg:'Invalid request'});
 			res.end();
 			return;
 		}

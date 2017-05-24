@@ -58,6 +58,9 @@ var userSchema=new mong.Schema({
 userSchema.statics.listAllUsers=function(cb){
 	return this.find({},cb);
 };
+userSchema.statics.findByParam=function(obj,cb){
+	return this.find(obj,cb);
+};
 userSchema.statics.getUserById=function(id,cb){
 	return this.find({_id: id.toString()},cb);
 };
