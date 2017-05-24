@@ -19,7 +19,7 @@ module.exports.execute=function(resource){
 			return;
 		}
 		if(req.params.mode==='remove'){
-			method_user.getUserById(user._id,function(err,result){
+			method_user.getUserByIdNoJoin(user._id,function(err,result){
 				if(err){
 					res.send({err_msg:err});
 					res.end();
@@ -72,7 +72,7 @@ module.exports.execute=function(resource){
 				res.end();
 				return;
 			}
-			method_user.getUserById(user._id.toString(),function(err,result){
+			method_user.getUserByIdNoJoin(user._id.toString(),function(err,result){
 				if(err){
 					console.log(err);
 					res.send({err_msg:err});
