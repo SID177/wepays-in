@@ -18,11 +18,11 @@ module.exports.execute=function(resource){
 	});
 
 	router.get('/list_users',function(req,res){
-		if(!isLogin(req)){
+		/*if(!isLogin(req)){
 			res.send({err_msg:'admin not logged in'});
 			res.end();
 			return;
-		}
+		}*/
 		method_user.listUsers(function(err,result){
 			res.send({data:result});
 			res.end();
@@ -30,11 +30,11 @@ module.exports.execute=function(resource){
 	});
 
 	router.get('/list_users/notapproved',function(req,res){
-		if(!isLogin(req)){
+		/*if(!isLogin(req)){
 			res.send({err_msg:'admin not logged in'});
 			res.end();
 			return;
-		}
+		}*/
 		method_user.listNotApprovedUsers(function(err,result){
 			res.send({data:result});
 			res.end();
