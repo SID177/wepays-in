@@ -38,7 +38,7 @@ module.exports.execute=function(resource){
 				return;
 			}
 			user.password='';
-			req.session.userLogin=user;
+			req.session.userLogin=user[0];
 			res.send({data:user,suc_msg:'success'});
 			res.end();
 		});

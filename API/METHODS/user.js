@@ -1,4 +1,5 @@
 const userModel=require('../../model/user.js');
+const method_request=require('./request.js');
 const method_college=require('./college.js');
 const method_course=require('./course.js');
 const method_city=require('./city.js');
@@ -9,7 +10,7 @@ module.exports.loginUser=function(username,password,cb){
 			console.log(err);
 			return cb(err,null);
 		}
-		return joinUser(result,cb);
+		return joinUser([result],cb);
 	});
 };
 
@@ -93,28 +94,42 @@ module.exports.updateUser=function(data,cb){
 	});
 };
 
-module.exports.requestCash=function(user,amt,cb){
+module.exports.requestCash=function(user,requestObj,cb){
 	userModel.getUserById(user._id,function(err,result){
 		if(err){
 			console.log(err);
-			return cb(err,null);
+			return cb(err);
 		}
 		if(result.length==0){
 			console.log("Invalid user ID");
-			return cb("Invalid user ID",null);
+			return cb("Invalid user ID");
 		}
 		if(!user.docVerified){
 			err="Document verification is not done!";
 			err+=user.documents.length==0?" (You haven't uploaded any documents yet)":"";
 			console.log(err);
-			return cb(err,null);
+			return cb(err);
 		}
-		if(amt>user.limit){
+		if(requestObj.amt>user.limit){
 			console.log("Limit exceed, only "+user.limit+" available");
-			return cb("Limit exceed, only "+user.limit+" available",null);
+			return cb("Limit exceed, only "+user.limit+" available");
 		}
-		result[0].limit-=amt;
-		return joinUser(result,cb);
+		//result[0].limit-=amt;
+		method_request.addRequest({
+			user_id:user._id.toString(),
+			amount:requestObj.amt,
+			type:'cash',
+			request_status:'new',
+			request_time:new Date().getTime(),
+			reason:requestObj.reason,
+			action_reason:null
+		},function(err){
+			if(err){
+				console.log(err);
+				cb(err);
+			}
+			cb(null);
+		});
 	});
 }
 

@@ -138,14 +138,18 @@ module.exports.execute=function(resource){
 			res.end();
 			return;
 		}
+		var requestObj={
+			amt:req.body.amt,
+			reason:req.body.reason?req.body.reason:null
+		};
 		if(req.params.what==='cash'){
-			method_user.requestCash(user,req.body.amt,function(err,result){
+			method_user.requestCash(user,requestObj,function(err){
 				if(err){
 					res.send({err_msg:err});
 					res.end();
 					return;
 				}
-				res.send({data:result,suc_msg:'success'});
+				res.send({suc_msg:'success'});
 				res.end();
 			});
 		}

@@ -8,6 +8,7 @@ module.exports.execute=function(resource){
 	const method_college=require('../METHODS/college.js');
 	const method_course=require('../METHODS/course.js');
 	const method_user=require('../METHODS/user.js');
+	const method_request=require('../METHODS/request.js');
 
 	router.get('/admin_islogin',function(req,res){
 		if(!isLogin(req)){
@@ -27,6 +28,24 @@ module.exports.execute=function(resource){
 		}*/
 		method_user.listUsers(function(err,result){
 			res.send({data:result});
+			res.end();
+		});
+	});
+
+	router.get('/list_requests',function(req,res){
+		/*if(!isLogin(req)){
+			res.send({err_msg:'admin not logged in'});
+			res.end();
+			return;
+		}*/
+		method_request.getRequests(function(err,result){
+			if(err){
+				res.send({err_msg:err});
+				res.end();
+				return;
+			}
+			result[0].request_time=new Date(Number(result[0].request_time));
+			res.send({data:result,suc_msg:'success'});
 			res.end();
 		});
 	});
@@ -202,6 +221,67 @@ module.exports.execute=function(resource){
 				res.send({suc_msg:'success'});
 				res.end();
 			});
+		});
+	});
+
+	router.get('/approveRequest/:id',function(req,res){
+		/*if(!isLogin(req)){
+			res.send({err_msg:'admin not logged in'});
+			res.end();
+			return;
+		}*/
+		var id=req.params.id;
+		var obj={
+			status:'approved',
+			reason:null
+		}
+		method_request.updateRequestStatus(id,obj,function(err,request){
+			if(err){
+				res.send({err_msg:err});
+				res.end();
+				return;
+			}
+			res.send({data:request,suc_msg:'success'});
+			res.end();
+		});
+	});
+	router.get('/cancelRequest/:id',function(req,res){
+		/*if(!isLogin(req)){
+			res.send({err_msg:'admin not logged in'});
+			res.end();
+			return;
+		}*/
+		var id=req.params.id;
+		var obj={
+			status:'cancelled',
+			reason:req.query.reason
+		}
+		method_request.updateRequestStatus(id,obj,function(err,request){
+			if(err){
+				res.send({err_msg:err});
+				res.end();
+				return;
+			}
+			res.send({data:request,suc_msg:'success'});
+			res.end();
+		});
+	});
+
+	router.get('/getRequests/user/:id',function(req,res){
+		/*if(!isLogin(req)){
+			res.send({err_msg:'admin not logged in'});
+			res.end();
+			return;
+		}*/
+		var id=req.params.id;
+		method_request.getRequestsByUser(id,function(err,requests){
+			if(err){
+				res.send({err_msg:err});
+				res.end();
+				return;
+			}
+			res.send({data:requests,suc_msg:'success'});
+			res.end();
 		});
 	});
 
