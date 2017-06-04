@@ -233,6 +233,7 @@ module.exports.execute=function(resource){
 		var id=req.params.id;
 		var obj={
 			status:'approved',
+			setReason:false,
 			reason:null
 		}
 		method_request.updateRequestStatus(id,obj,function(err,request){
@@ -254,7 +255,29 @@ module.exports.execute=function(resource){
 		var id=req.params.id;
 		var obj={
 			status:'cancelled',
+			setReason:true,
 			reason:req.query.reason
+		}
+		method_request.updateRequestStatus(id,obj,function(err,request){
+			if(err){
+				res.send({err_msg:err});
+				res.end();
+				return;
+			}
+			res.send({data:request,suc_msg:'success'});
+			res.end();
+		});
+	});
+	router.get('/setRequestStatus/:id/:status',function(req,res){
+		/*if(!isLogin(req)){
+			res.send({err_msg:'admin not logged in'});
+			res.end();
+			return;
+		}*/
+		var id=req.params.id;
+		var obj={
+			status:req.params.status,
+			setReason:false
 		}
 		method_request.updateRequestStatus(id,obj,function(err,request){
 			if(err){

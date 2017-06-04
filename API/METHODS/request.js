@@ -70,7 +70,7 @@ module.exports.updateRequestStatus=function(id,obj,cb){
 		}
 		request=request[0];
 		request.request_status=obj.status;
-		request.action_reason=obj.reason;
+		request.action_reason=obj.setReason?obj.reason:request.action_reason;
 
 		requestModel.updateRequest(request,function(err){
 			if(err){
