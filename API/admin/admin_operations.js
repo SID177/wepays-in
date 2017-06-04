@@ -27,7 +27,30 @@ module.exports.execute=function(resource){
 			return;
 		}*/
 		method_user.listUsers(function(err,result){
-			res.send({data:result});
+			if(err){
+				res.send({err_msg:err});
+				res.end();
+				return;
+			}
+			res.send({data:result,suc_msg:'success'});
+			res.end();
+		});
+	});
+
+	router.get('/getUser/:id',function(req,res){
+		/*if(!isLogin(req)){
+			res.send({err_msg:'admin not logged in'});
+			res.end();
+			return;
+		}*/
+		var id=req.params.id;
+		method_user.getUserById(id,function(err,result){
+			if(err){
+				res.send({err_msg:err});
+				res.end();
+				return;
+			}
+			res.send({data:result,suc_msg:'success'});
 			res.end();
 		});
 	});
