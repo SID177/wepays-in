@@ -355,4 +355,17 @@ module.exports.execute=function(resource){
 		}
 		res.sendFile(path_comp.resolve(path));
 	});
+
+	router.get('/getTransactions/:id',function(req,res){
+		var id=req.params.id;
+		method_user.getCreditLimitByUser(id,function(err,transactions){
+			if(err){
+				res.send({err_msg:err});
+				res.end();
+				return;
+			}
+			res.send({suc_msg:'success',data:transactions});
+			res.end();
+		});
+	});
 };

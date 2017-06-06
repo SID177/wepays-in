@@ -14,6 +14,33 @@ module.exports.loginUser=function(username,password,cb){
 	});
 };
 
+module.exports.getCreditLimitByUser=function(id,cb){
+	userModel.getUserById(id,function(err,user){
+		if(err){
+			console.log(err);
+			return cb(err,null);
+		}
+		if(user.length==0){
+			console.log('no user found');
+			return cb('No User Found',null);
+		}
+		var transactions=0;
+		user=user[0];
+		method_request.getRequestsByUser(user._id.toString(),function(err,requests){
+			if(err){
+				console.log(err);
+				cb(err,null);
+			}
+			for(var i=0;i<requests.length;i++){
+				if(requests[i].status=='cancelled')
+					continue;
+				transactions+=requests[i].amount;
+			}
+			cb(null,transactions);
+		});
+	});
+};
+
 module.exports.getUserById=function(id,cb){
 	userModel.getUserById(id,function(err,result){
 		if(err){
