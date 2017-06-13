@@ -356,7 +356,7 @@ module.exports.execute=function(resource){
 		res.sendFile(path_comp.resolve(path));
 	});
 
-	router.get('/getTransactions/:id',function(req,res){
+	router.get('/getTransactionAmount/:id',function(req,res){
 		var id=req.params.id;
 		method_user.getCreditLimitByUser(id,function(err,transactions){
 			if(err){
