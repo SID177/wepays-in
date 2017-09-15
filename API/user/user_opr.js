@@ -116,7 +116,7 @@ module.exports.execute=function(resource){
 			res.end();
 			return;
 		}
-		var path=__dirname+"/../../"+req.query.path;
+		var path=__dirname+"/../../documents/"+user._id+"/"+req.query.path;
 		if(!fs.existsSync(path)){
 			console.log('File doesn\'t exists: '+path);
 			res.send({err_msg:'File doesn\'t exists: '+path});
