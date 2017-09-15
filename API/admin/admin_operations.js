@@ -337,16 +337,16 @@ module.exports.execute=function(resource){
 			res.send({err_msg:'not logged in'});
 			res.end();
 			return;
-		}
-		console.log(user);*/
+		}*/
+		// console.log(user);
 
-		if(!req.query.path){
+		if(!req.query.path || !req.query.user_id){
 			console.log('html code changed');
 			res.send({err_msg:'html code changed'});
 			res.end();
 			return;
 		}
-		var path=__dirname+"/../../"+req.query.path;
+		var path=__dirname+"/../../documents/"+req.query.user_id+"/"+req.query.path;
 		if(!fs.existsSync(path)){
 			console.log('File doesn\'t exists: '+path);
 			res.send({err_msg:'File doesn\'t exists: '+path});
